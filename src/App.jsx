@@ -1,5 +1,5 @@
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { phones } from './data/phones'
 import BuyingGuide from './BuyingGuide'
 import InfoPages from './InfoPages'
@@ -245,6 +245,63 @@ function App() {
   }
 
   const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+  
+useEffect(() => {
+  const pages = {
+    '/': {
+      title: 'PocketPrice India | Compare Budget & Refurbished Phones',
+      description:
+        'Explore budget and refurbished smartphones in India. Compare phone features, check retailer-listed prices, and find options that fit your budget.',
+    },
+    '/about': {
+      title: 'About PocketPrice | Our Smartphone Discovery Website',
+      description:
+        'Learn how PocketPrice presents smartphone listings, prices, specifications, and retailer information.',
+    },
+    '/contact': {
+      title: 'Contact PocketPrice | Listing Corrections & Questions',
+      description:
+        'Contact PocketPrice about incorrect prices, outdated smartphone listings, broken links, or suggestions.',
+    },
+    '/privacy-policy': {
+      title: 'Privacy Policy | PocketPrice',
+      description:
+        'Read how PocketPrice handles information, external retailer links, and potential advertising services.',
+    },
+    '/disclosure': {
+      title: 'Price & Affiliate Disclosure | PocketPrice',
+      description:
+        'Understand PocketPrice retailer prices, availability information, external links, and potential affiliate relationships.',
+    },
+    '/guides/best-refurbished-phones-under-5000-india': {
+      title: 'Best Refurbished Phones Under ₹5,000 in India | PocketPrice',
+      description:
+        'Learn what to check when comparing refurbished phones under ₹5,000, including condition, battery, warranty, and returns.',
+    },
+  }
+
+  const page = pages[pathname]
+  if (!page) return
+
+  document.title = page.title
+
+  let description = document.querySelector('meta[name="description"]')
+  if (!description) {
+    description = document.createElement('meta')
+    description.name = 'description'
+    document.head.appendChild(description)
+  }
+  description.content = page.description
+
+  let canonical = document.querySelector('link[rel="canonical"]')
+  if (!canonical) {
+    canonical = document.createElement('link')
+    canonical.rel = 'canonical'
+    document.head.appendChild(canonical)
+  }
+  canonical.href = `https://pocketprice.vercel.app${pathname}`
+}, [pathname])
+
 
   if (pathname === '/guides/best-refurbished-phones-under-5000-india') {
     return <BuyingGuide />
