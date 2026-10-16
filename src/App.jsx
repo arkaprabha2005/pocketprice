@@ -2,6 +2,7 @@
 import { useMemo, useState } from 'react'
 import { phones } from './data/phones'
 import BuyingGuide from './BuyingGuide'
+import InfoPages from './InfoPages'
 import {
   Smartphone, Search, Menu, X, ChevronRight,
   ArrowRight, Heart, SlidersHorizontal, Star, Zap, ShieldCheck,
@@ -243,8 +244,14 @@ function App() {
     setSort('featured')
   }
 
-  if (window.location.pathname === '/guides/best-refurbished-phones-under-5000-india') {
+  const pathname = window.location.pathname.replace(/\/$/, '') || '/'
+
+  if (pathname === '/guides/best-refurbished-phones-under-5000-india') {
     return <BuyingGuide />
+  }
+
+  if (['/about', '/contact', '/privacy-policy', '/disclosure'].includes(pathname)) {
+    return <InfoPages path={pathname} />
   }
 
   return (
@@ -668,19 +675,19 @@ function App() {
             <div>
               <h3 className="font-bold">Information</h3>
               <div className="mt-4 flex flex-col gap-3 text-sm text-blue-100/70">
-                <a href="#about" className="hover:text-white">About PocketPrice</a>
-                <a href="#contact" className="hover:text-white">Contact</a>
-                <a href="#disclosure" className="hover:text-white">Price & affiliate disclosure</a>
-                <a href="#privacy" className="hover:text-white">Privacy policy placeholder</a>
+                <a href="/about" className="hover:text-white">About PocketPrice</a>
+                <a href="/contact" className="hover:text-white">Contact</a>
+                <a href="/disclosure" className="hover:text-white">Price & affiliate disclosure</a>
+                <a href="/privacy-policy" className="hover:text-white">Privacy policy</a>
               </div>
             </div>
           </div>
 
-          <div id="about" className="mt-10 border-t border-white/10 pt-6">
-            <p id="disclosure" className="text-xs leading-6 text-blue-100/60">
-              Prices and availability are not guaranteed to be live and should be confirmed with the retailer. PocketPrice may add advertising or affiliate links in the future; any such relationship will be disclosed clearly.
+          <div className="mt-10 border-t border-white/10 pt-6">
+            <p className="text-xs leading-6 text-blue-100/60">
+              Prices and availability can change. Verify the current price, condition, warranty and stock with the retailer before buying. PocketPrice does not sell or ship phones directly.
             </p>
-            <p id="privacy" className="mt-4 text-xs text-blue-100/50">
+            <p className="mt-4 text-xs text-blue-100/50">
               © {new Date().getFullYear()} PocketPrice. An independent phone discovery site.
             </p>
           </div>
